@@ -1,0 +1,49 @@
+\subsection{Разработка алгоритмов}
+\subsubsection{Алгоритм расшифровки IP заголовка}
+
+Функция \texttt{print{\textunderscore}ip{\textunderscore}header(unsigned char* buffer, int size)} -- на
+вход поступает массив данных пакета и размер массива. Шаги алгоритма:
+\begin{enumerate}
+    \item[1] Начало.
+    \item[2] Вызов функции \texttt{print{\textunderscore}ethernet{\textunderscore}header()} для вывода Ethernet
+    заголовка пакета.
+    \item[3] Определение переменной \texttt{iphdrlen} типа \texttt{unsigned short} для хранения
+    размера IP заголовка пакета.
+    \item[4] Инициализация указателя на структуру IP заголовка, используя
+    указатель на начало буфера \texttt{buffer} и размер структуры Ethernet заголовка.
+    \item[5] Определение длины IP заголовка путем умножения поля ihl на 4
+    (каждое значение поля \texttt{ihl} представляет длину в 32-битных словах).
+    \item[6] Обнуление структуры \texttt{source} и заполнение поля \texttt{sin{\textunderscore}addr.s{\textunderscore}addr}
+    значением поля \texttt{saddr} из IP заголовка.
+    \item[7] Обнуление структуры \texttt{dest} и заполнение поля \texttt{sin{\textunderscore}addr.s{\textunderscore}addr}
+    значением поля \texttt{daddr} из IP заголовка.
+    \item[8] Вывод значений полей IP заголовка пакета в файл \texttt{logfile} с помощью
+    функции \texttt{fprintf()}\cite{lang_c}. Каждое поле выводится на новой строке.
+    \item[9] Конец.
+\end{enumerate}
+
+
+\subsubsection{Алгоритм анализа TCP протокола}
+
+Функция \texttt{print{\textunderscore}tcp{\textunderscore}header(unsigned char* buffer, int size)} -- на
+вход поступает массив данных пакета и размер массива. Шаги алгоритма:
+\begin{enumerate}
+    \item[1] Начало.
+    \item[2] Определение переменной \texttt{iphdrlen} типа \texttt{unsigned short} для хранения
+    размера IP заголовка пакета.
+    \item[3] Инициализация указателя на структуру IP заголовка, используя
+    указатель на начало буфера \texttt{buffer} и размер структуры Ethernet заголовка.
+    \item[4] Определение длины IP заголовка путем умножения поля \texttt{ihl} на 4
+    (каждое значение поля \texttt{ihl} представляет длину в 32-битных словах).
+    \item[5] Инициализация указателя на структуру заголовка TCP пакета, используя
+    вычисленную длину IP заголовка, указатель на начало буфера \texttt{buffer} и размер
+    структуры Ethernet заголовка.
+    \item[6] Вычисление размера заголовка TCP пакета, используя размер структуры
+    Ethernet заголовка, размер IP заголовка и размер поля \texttt{doff} структуры \texttt{tcph}.
+    \item[7] Вызов функции print{\textunderscore}ip{\textunderscore}header() для вывода IP заголовка.
+    \item[8] Вывод значений полей заголовка TCP пакета в файл \texttt{logfile} с помощью
+    функции \texttt{fprintf()}\cite{lang_c}. Каждое поле выводится на новой строке.
+    \item[9] Вывод дампа памяти всех заголовков в файл \texttt{logfile}, используя
+    функцию \texttt{print{\textunderscore}data()} и размеры заголовков.
+    \item[10] Конец.
+\end{enumerate}

@@ -2,23 +2,23 @@
 
 Разработанная программа включает в себя следующие структуры данных:
 \begin{enumerate}
-    \item[1] {{\texttt{Struct sockaddr}} -- системная структура данных, описывающая сокет.
+    \item[1] {{\texttt{Struct sockaddr}} -- системная структура данных, описывающая сокет\cite{linux_prog}.
     Содержит следующие поля:
         \begin{itemize}
-            \item \texttt{u{\textunderscore}short sa{\textunderscore}family} -- код семейства адресов, указывающий на тип
+            \item \texttt{u{\textunderscore}short sa{\textunderscore}family}\cite{unix_net} -- код семейства адресов, указывающий на тип
             адреса в зависимости от протокола;
             \item \texttt{char sa{\textunderscore}data} -- массив, содержащий остальную часть адреса,
             необходимую для использования в конкретных сетевых протоколах.
         \end{itemize}}
 
     \item[2] {{\texttt{Struct sockaddr{\textunderscore}in}} -- системная структура данных, описывающая сокет
-    в домене AF{\textunderscore}INET. Содержит следующие поля:
+    в домене AF{\textunderscore}INET\cite{opennet}. Содержит следующие поля:
         \begin{itemize}
-            \item \texttt{short sin{\textunderscore}family} -- семейство адресов (по умолчанию
+            \item \texttt{short sin{\textunderscore}family}\cite{unix_net} -- семейство адресов (по умолчанию
             устанавливается на значение AF{\textunderscore}INET);
-            \item \texttt{u{\textunderscore}short sin{\textunderscore}port} -- номер порта, на который должен быть
+            \item \texttt{u{\textunderscore}short sin{\textunderscore}port}\cite{linux_prog} -- номер порта, на который должен быть
             отправлен пакет;
-            \item \texttt{struct in{\textunderscore}addr, sin{\textunderscore}addr} -- структуры, содержащие IP адрес, по
+            \item \texttt{struct in{\textunderscore}addr, sin{\textunderscore}addr}\cite{opennet} -- структуры, содержащие IP адрес, по
             которому должен быть отправлен пакет;
             \item \texttt{char sin{\textunderscore}zero} -- массив, используемый для дополнения структуры
             до размера структуры sockaddr.
@@ -49,7 +49,7 @@
     Ethernet заголовка. Содержит следующие поля:
         \begin{itemize}
             \item \texttt{unsigned char h{\textunderscore}dest[ETH{\textunderscore}ALEN]} -- массив байт длиной
-            ETH{\textunderscore}ALEN, содержащий MAC-адрес получателя Ethernet фрейма;
+            ETH{\textunderscore}ALEN\cite{unix_prof}, содержащий MAC-адрес получателя Ethernet фрейма;
             \item \texttt{unsigned char h{\textunderscore}source[ETH{\textunderscore}ALEN]} -- массив байт длиной
             ETH{\textunderscore}ALEN, содержащий MAC-адрес источника Ethernet фрейма;
             \item \texttt{be16 h{\textunderscore}proto} -- двухбайтовое значение, определяющее тип
@@ -65,7 +65,7 @@
             \item \texttt{u{\textunderscore}int32{\textunderscore}t ack{\textunderscore}seq} -- подтверждение получения
             последовательности;
             \item \texttt{u{\textunderscore}int16{\textunderscore}t doff} -- размер заголовка TCP протокола в 32-битных
-            словах;
+            словах\cite{unix_prof};
             \item \texttt{u{\textunderscore}int16{\textunderscore}t fin} -- флаг указывает, что отправитель закончил
             передачу данных;
             \item \texttt{u{\textunderscore}int16{\textunderscore}t syn} -- флаг указывает, что установлена новое
@@ -112,7 +112,7 @@
         (устанавливается отправителем, используется для передачи пакетов эхо-
         запроса и эхо-ответа);
         \item \texttt{u{\textunderscore}int32{\textunderscore}t gateway} -- адрес шлюза (для сообщений, отправляемых
-        через шлюз);
+        через шлюз)\cite{unix_prof};
         \item \texttt{u{\textunderscore}int16{\textunderscore}t mtu} -- максимальный размер пакета, который может
         быть передан по маршруту.
     \end{itemize}}

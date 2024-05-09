@@ -316,3 +316,5 @@ config.sh
 # drawio temp & backup files
 *.bkp
 *.dtmp
+
+cw_report_ref.pdf

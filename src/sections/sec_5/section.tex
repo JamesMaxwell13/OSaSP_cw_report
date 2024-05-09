@@ -1,0 +1,122 @@
+\section{Результаты работы}
+\label{sec:result}
+
+\subsection{Тестирование}
+
+Запуск программы производится через терминал из директории, в которой
+находится исполняемый файл. Так как программе нужен доступ к raw сокетам, 
+важно помнить, что само приложение необходимо запускать с правами пользователя 
+root\cite{linux} или используя системную утлиту sudo:
+\begin{verbatim}
+    sudo ./main
+\end{verbatim}
+Сразу после запуска программа запускает процесс захвата и анализа
+пакетов. Об этом сигнализирует строка консоли. В процессе выполнения в
+консоль выводится промежуточное количество захваченных пакетов:
+\begin{verbatim}
+    Starting...
+    TCP: 434 UDP: 77 ICMP: 0 Others: 71 Total: 582
+\end{verbatim}
+О завершении программы сигнализирует соответствующая строка
+консоли, которая выводится сразу после вывода конечного количества
+захваченных пакетов:
+\begin{verbatim}
+    Starting...
+    TCP: 582 UDP: 101 ICMP: 0 Others: 76 Total: 759
+    Finished
+\end{verbatim}
+Результаты работы программы сохраняются в текстовый файл, который
+создается автоматически. Данные в файле отформатированы так, чтобы
+пользователю было удобно их проанализировать. Каждый пакет имеет
+заголовок, в котором указывается протокол. Далее размещаются IP и Ethernet
+заголовки с описанными внутренними параметрами, после чего расписаны
+параметры непосредственно протокола. В конце приводится блок данных,
+которые находились в заголовках пакета в момент его захвата. Фрагмент файла
+с результатами выглядит следующим образом:
+\footnotesize
+\begin{verbatim}
+            **********************TCP Packet*************************
+
+        Ethernet Header
+        |-Destination Address : CC-03-FA-62-83-7D 
+        |-Source Address : EC-2E-98-54-E2-75 
+        |-Protocol : 8 
+
+        IP Header
+        |-IP Version : 4
+        |-IP Header Length : 5 DWORDS or 20 Bytes
+        |-Type Of Service : 0
+        |-IP Total Length : 205 Bytes (Size of Packet)
+        |-Identification : 7213
+        |-TTL : 64
+        |-Protocol : 6
+        |-Checksum : 8311
+        |-Source IP : 192.168.0.27
+        |-Destination IP : 149.154.167.41
+
+        TCP Header
+        |-Source Port : 42178
+        |-Destination Port : 443
+        |-Sequence Number : 3223488899
+        |-Acknowledge Number : 2709835259
+        |-Header Length : 8 DWORDS or 32 BYTES
+        |-Urgent Flag : 0
+        |-Acknowledgement Flag : 1
+        |-Push Flag : 1
+        |-Reset Flag : 0
+        |-Synchronise Flag : 0
+        |-Finish Flag : 0
+        |-Window : 4680
+        |-Checksum : 14390
+        |-Urgent Pointer : 0
+
+        DATA Dump 
+        IP Header
+        CC 03 FA 62 83 7D EC 2E 98 54 E2 75 08 00 45 00 	...b.}...T.u..E.
+        00 CD 1C 2D                                     	...-
+        TCP Header
+        40 00 40 06 20 77 C0 A8 00 1B 95 9A A7 29 A4 C2 	@.@. w.......)..
+        01 BB C0 22 89 83 A1 84 CD FB 80 18 12 48 38 36 	..."......Ђ..H86
+        Data Payload
+        93 0D 55 41 36 8E 67 F8 F4 DD 7E 12 00 35 37 C0 	..UA6.g...~..57.
+        D4 2F 16 8A 99 AC 8B 75 72 BD 55 06 06 A7 25 2D 	./.....ur.U...%-
+        9F AC 0E 6A 3E EB 34 62 F4 2C 5A B3 D4 E4 61 81 	...j>.4b.,Z...a.
+        B8 ED 19 3E F6 93 AD 8E 97 E3 6C 0C 5E C1 F0 84 	...>......l.^...
+        C7 3F 1E 3C BB C2 6B B5 E9 97 E9 20 72 68 C8 2F 	.?.<..k.... rh./
+        9B 70 CD DF 37 54 F6 71 F0 97 1E AB 93 D2 07 52 	.p..7T.q.......R
+        00 4A 9F 93 5D 1A A4 C0 FD 30 EC 2A 21 AB 6B 3F 	.J..]....0.*!.k?
+        C7 46 63 AB DB 23 12 0E 27 19 C6 DF 6F BC 62 3C 	.Fc..#..'...o.b<
+        84 79 2F D6 8F A8 24 B2 9A 5C 9F 72 56 C4 23 96 	.y/...$..\.rV.#.
+        E2 C8 54 74 E2 DE 8F 90 17                      	..Tt.....        
+\end{verbatim}
+\normalsize
+В работе программы предусмотрены возможные исключения. Если при 
+создании файла, в который будут заноситься данные, происходит ошибка, в 
+консоль будет выведено соответствующее сообщение\cite{linux_prog}, и программа будет 
+экстренно завершена:
+\begin{verbatim}
+    Starting…
+    Unable to create log.txt file
+\end{verbatim}
+В случае неудачной попытки открыть сокет в консоль будет выведено
+соответствующее сообщение об ошибке\cite{linux_prog}, и программа будет экстренно
+завершена:
+\begin{verbatim}
+    Starting…
+    Socket Error: Bad file descriptor
+\end{verbatim}
+При неудочной попытке чтения пакета в консоль будет выведено
+соответствующее сообщение об ошибке\cite{linux_prog}, и программа будет экстренно
+завершена:
+\begin{verbatim}
+    Starting…
+    Recvfrom error , failed to get packets
+\end{verbatim}
+Если программа была запущена без прав привилегированного пользователя,
+будет сгенерировано сообщение об ошибке доступа к сокету:
+\begin{verbatim}
+    Starting…
+    Socket Error: Operation not permited     
+\end{verbatim}
+\subsection{Код программмы}
+Код программы представлен в приложении \hyperref[sec:appendix:code]{Г}.
