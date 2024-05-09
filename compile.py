@@ -10,6 +10,8 @@ DOCKER_IMAGE = "ajiob/docker-xelatex-fonts:1.2.1"
 def main():
     system = platform.system()
 
+    os.remove("src/report.pdf")
+
     compile_cmd = "make -j4 -C 'src' all"
 
     clean_cmd = "make -C 'src' clean"

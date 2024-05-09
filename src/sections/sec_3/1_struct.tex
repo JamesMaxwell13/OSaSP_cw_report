@@ -1,0 +1,119 @@
+\subsection{Описание основных структур данных программы}
+
+Разработанная программа включает в себя следующие структуры данных:
+\begin{enumerate}
+    \item[1] {{\texttt{Struct sockaddr}} -- системная структура данных, описывающая сокет.
+    Содержит следующие поля:
+        \begin{itemize}
+            \item \texttt{u{\textunderscore}short sa{\textunderscore}family} -- код семейства адресов, указывающий на тип
+            адреса в зависимости от протокола;
+            \item \texttt{char sa{\textunderscore}data} -- массив, содержащий остальную часть адреса,
+            необходимую для использования в конкретных сетевых протоколах.
+        \end{itemize}}
+
+    \item[2] {{\texttt{Struct sockaddr{\textunderscore}in}} -- системная структура данных, описывающая сокет
+    в домене AF{\textunderscore}INET. Содержит следующие поля:
+        \begin{itemize}
+            \item \texttt{short sin{\textunderscore}family} -- семейство адресов (по умолчанию
+            устанавливается на значение AF{\textunderscore}INET);
+            \item \texttt{u{\textunderscore}short sin{\textunderscore}port} -- номер порта, на который должен быть
+            отправлен пакет;
+            \item \texttt{struct in{\textunderscore}addr, sin{\textunderscore}addr} -- структуры, содержащие IP адрес, по
+            которому должен быть отправлен пакет;
+            \item \texttt{char sin{\textunderscore}zero} -- массив, используемый для дополнения структуры
+            до размера структуры sockaddr.
+        \end{itemize}}
+
+    \item[3] {{\texttt{Struct iphdr}} -- системная структура данных, хранящая параметры IP
+    заголовка. Содержит следующие поля:
+        \begin{itemize}
+            \item \texttt{unsigned int ihl} -- длина IP заголовка в 32-битных словах;
+            \item \texttt{unsigned int version} -- версия протокола IP;
+            \item \texttt{u{\textunderscore}int8{\textunderscore}t tos} -- тип сервиса (указания приоритета трафика);
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t tot{\textunderscore}len} -- общая длина IP пакета в байтах, включая
+            заголовок и данные;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t id} -- идентификатор IP пакета;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t frag{\textunderscore}off} -- смещение фрагмента IP пакета в байтах от
+            начала пакета;
+            \item \texttt{u{\textunderscore}int8{\textunderscore}t ttl} -- время жизни (количество маршрутизаторов,
+            которые пакет может проходить до его отбрасывания);
+            \item \texttt{u{\textunderscore}int8{\textunderscore}t protocol} -- номер протокола верхнего уровня, который
+            передает данные в IP пакете;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t check} -- контрольная сумма заголовка IP пакета
+            (проверка целостности пакета);
+            \item \texttt{u{\textunderscore}int32{\textunderscore}t saddr} -- IP адрес отправителя пакета;
+            \item \texttt{u{\textunderscore}int32{\textunderscore}t daddr} -- IP адрес получателя пакета.
+        \end{itemize}}
+
+    \item[4] {{\texttt{Struct ethhdr}} -- системная структура данных, хранящая параметры
+    Ethernet заголовка. Содержит следующие поля:
+        \begin{itemize}
+            \item \texttt{unsigned char h{\textunderscore}dest[ETH{\textunderscore}ALEN]} -- массив байт длиной
+            ETH{\textunderscore}ALEN, содержащий MAC-адрес получателя Ethernet фрейма;
+            \item \texttt{unsigned char h{\textunderscore}source[ETH{\textunderscore}ALEN]} -- массив байт длиной
+            ETH{\textunderscore}ALEN, содержащий MAC-адрес источника Ethernet фрейма;
+            \item \texttt{be16 h{\textunderscore}proto} -- двухбайтовое значение, определяющее тип
+            протокола, который используется внутри данных пакета.
+        \end{itemize}}
+
+    \item[5] {{\texttt{Struct tcphdr}} -- системная структура данных, хранящая параметры TCP
+    протокола. Содержит следующие поля:
+        \begin{itemize}
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t source} -- порт отправителя;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t dest} -- порт получателя;
+            \item \texttt{u{\textunderscore}int32{\textunderscore}t seq} -- номер последовательности для передачи данных;
+            \item \texttt{u{\textunderscore}int32{\textunderscore}t ack{\textunderscore}seq} -- подтверждение получения
+            последовательности;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t doff} -- размер заголовка TCP протокола в 32-битных
+            словах;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t fin} -- флаг указывает, что отправитель закончил
+            передачу данных;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t syn} -- флаг указывает, что установлена новое
+            соединение;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t rst} -- флаг указывает на необходимость прервать
+            соединение;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t psh} -- флаг указывает, что следует отправить данные
+            без ожидания заполнения буфера;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t ack} -- флаг указывает, что подтверждение номера
+            последовательности действительно;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t urg} -- флаг указывает, что присутствует важная
+            информация, которая требует приоритетной обработки;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t window} -- размер окна, который определяет количество
+            данных, которые могут быть переданы отправителем до получения
+            подтверждения;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t check} -- контрольная сумма заголовка TCP протокола
+            (проверка целостности данных);
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t urg{\textunderscore}ptr} -- указатель на полезную нагрузку в TCP-
+            сегменте, которая требует приоритетной обработки.
+        \end{itemize}}
+
+    \item[6] {{\texttt{Struct udphdr}} -- системная структура данных, хранящая параметры UDP
+    протокола. Содержит следующие поля:
+        \begin{itemize}
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t source} -- порт отправителя;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t dest} -- порт получателя;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t len} -- общая длина заголовка UDP протокола и данных
+            пакета в байтах;
+            \item \texttt{u{\textunderscore}int16{\textunderscore}t check} -- контрольная сумма заголовка UDP протокола
+            (проверка целостности данных).
+        \end{itemize}}
+
+    \item[7] {{\texttt{Struct icmphdr}} -- системная структура данных, хранящая параметры
+    ICMP протокола. Содержит следующие поля:
+    \begin{itemize}
+        \item \texttt{u{\textunderscore}int8{\textunderscore}t type} -- тип ICMP-сообщения;
+        \item \texttt{u{\textunderscore}int8{\textunderscore}t code} -- уточнения типа сообщения;
+        \item \texttt{u{\textunderscore}int16{\textunderscore}t checksum} -- контрольная сумма заголовка ICMP
+        протокола (проверка целостности данных);
+        \item \texttt{u{\textunderscore}int16{\textunderscore}t id} -- идентификатор запроса (устанавливается
+        отправителем, используется для передачи пакетов эхо-запроса и эхо-
+        ответа);
+        \item \texttt{u{\textunderscore}int16{\textunderscore}t} sequence -- порядковый номер запроса
+        (устанавливается отправителем, используется для передачи пакетов эхо-
+        запроса и эхо-ответа);
+        \item \texttt{u{\textunderscore}int32{\textunderscore}t gateway} -- адрес шлюза (для сообщений, отправляемых
+        через шлюз);
+        \item \texttt{u{\textunderscore}int16{\textunderscore}t mtu} -- максимальный размер пакета, который может
+        быть передан по маршруту.
+    \end{itemize}}
+\end{enumerate}

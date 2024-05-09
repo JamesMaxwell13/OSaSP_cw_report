@@ -1,0 +1,29 @@
+\subsection{Описание основных функций программы}
+
+Главные функции в приложении очень похожи и в основном различаются только по типу пакета и 
+заголовку. Также есть отдельные функции определения протокола и вывода данных, полученных 
+от предыдущих функций в файл. Разработанная программа состоит из следующих основных функций:
+
+\begin{itemize}
+    \item \texttt{void process{\textunderscore}packet(unsigned char* buffer, int size)} --
+    функция определения протокола пакета, вызова соответствующей функции протокола и 
+    счетчика протоколов. Принимает буфер данных пакета \texttt{buffer} и размер принятых из 
+    пакета данных \texttt{size};
+    \item \texttt{void print{\textunderscore}ethernet{\textunderscore}header(unsigned char* 
+    buffer, int size)} -- функция расшифровки Ethernet заголовка пакета. 
+    Принимает буфер данных пакета \texttt{buffer} и размер принятых из пакета данных \texttt{size};
+    \item \texttt{void print{\textunderscore}ip{\textunderscore}header(unsigned char* buffer)} --
+    функция расшифровки IP заголовка пакета. Принимает буфер данных пакета \texttt{buffer};
+    \item \texttt{void print{\textunderscore}tcp{\textunderscore}packet(unsigned char* buffer, 
+    int size)} -- функция считывания параметров TCP протокола пакета. Принимает буфер данных 
+    пакета \texttt{buffer} и размер принятых из пакета данных \texttt{size};
+    \item \texttt{void print{\textunderscore}udp{\textunderscore}packet(unsigned char* buffer, 
+    int size)} -- функция считывания параметров UDP протокола пакета. Принимает буфер данных 
+    пакета \texttt{buffer} и размер принятых из пакета данных \texttt{size};
+    \item \texttt{void print{\textunderscore}icmp{\textunderscore}packet(unsigned char* buffer, 
+    int size)} -- функция считывания параметров ICMP протокола пакета. Принимает буфер данных 
+    пакета \texttt{buffer} и размер принятых из пакета данных \texttt{size};
+    \item \texttt{void print{\textunderscore}data(unsigned char* data, int size)} --
+    функция записи полученных из пакетов данных в файл с результатами. Принимает буфер данных 
+    пакета \texttt{buffer} и размер принятых из пакета данных \texttt{size}.
+\end{itemize}
