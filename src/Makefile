@@ -20,6 +20,7 @@ $(REPORT_PDF).pdf: *.tex *.bib
 	$(PDFLATEX) $(REPORT_PDF)
 	# Citations count fixing
 	$(PDFLATEX) $(REPORT_PDF)
+	$(PDFLATEX) $(REPORT_PDF)
 
 cleanall: clean
 	$(RM)  *.pdf
